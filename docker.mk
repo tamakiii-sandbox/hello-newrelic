@@ -1,12 +1,10 @@
 .PHONY: help install dependencies build bash clean
 
 NAME := tamakiii-sandbox/hello-newrelic
-WORKDIR := /usr/local/app/hello-newrelic
 OPTIONS :=
 
-NEWRELIC_LICENSE_KEY ?= $(shell grep 'NEWRELIC_LICENSE_KEY' .env | awk -F= '{ print $$2 }')
-BUILD_ARGS ?= NEWRELIC_LICENSE_KEY=$(NEWRELIC_LICENSE_KEY)
-VOLUMES := $(CURDIR):$(WORKDIR)
+NEWRELIC_LICENSE_KEY :=
+HTTP_PORT := 8080
 
 help:
 	@cat $(firstword $(MAKEFILE_LIST))
@@ -21,9 +19,10 @@ dependencies:
 
 .env:
 	echo "NEWRELIC_LICENSE_KEY=$(NEWRELIC_LICENSE_KEY)" > $@
+	echo "HTTP_PORT=$(HTTP_PORT)" >> $@
 
 build:
-	docker build -t $(NAME) $(foreach a,$(BUILD_ARGS),--build-arg $a) $(OPTIONS) .
+	docker-compose build $(OPTIONS)
 
 bash:
 	docker run -it --rm  -w $(WORKDIR) $(foreach v,$(VOLUMES),-v $v) $(NAME) $@
