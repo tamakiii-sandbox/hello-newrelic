@@ -2,5 +2,5 @@
 
 ## How to use
 ```sh
-make -f docker.mk install
+make -f docker.mk install # OPTIONS="--no-cache --progress plain"
 ```
