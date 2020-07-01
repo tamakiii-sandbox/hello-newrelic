@@ -1,4 +1,4 @@
-FROM php:8.0-rc-fpm
+FROM php:7.4.7-fpm
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -22,3 +22,5 @@ RUN apt-get update && \
 ARG NEWRELIC_LICENSE_KEY
 COPY docker/newrelic.ini /usr/local/etc/php/conf.d/newrelic.ini
 RUN sed -ie "s/<your-key-goes-here>/${NEWRELIC_LICENSE_KEY}/" /usr/local/etc/php/conf.d/newrelic.ini
+
+RUN NR_INSTALL_SILENT=1 newrelic-install install
