@@ -23,4 +23,6 @@ ARG NEWRELIC_LICENSE_KEY
 COPY docker/newrelic.ini /usr/local/etc/php/conf.d/newrelic.ini
 RUN sed -ie "s/<your-key-goes-here>/${NEWRELIC_LICENSE_KEY}/" /usr/local/etc/php/conf.d/newrelic.ini
 
-RUN NR_INSTALL_SILENT=1 newrelic-install install
+RUN NR_INSTALL_SILENT=1 \
+    NR_INSTALL_KEY=${NEWRELIC_LICENSE_KEY} \
+      newrelic-install install
