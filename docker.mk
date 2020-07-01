@@ -1,10 +1,8 @@
-.PHONY: help install dependencies build bash clean
-
-NAME := tamakiii-sandbox/hello-newrelic
-OPTIONS :=
+.PHONY: help install dependencies build clean
 
 NEWRELIC_LICENSE_KEY :=
 HTTP_PORT := 8080
+OPTIONS :=
 
 help:
 	@cat $(firstword $(MAKEFILE_LIST))
@@ -24,8 +22,5 @@ dependencies:
 build:
 	docker-compose build $(OPTIONS)
 
-bash:
-	docker run -it --rm  -w $(WORKDIR) $(foreach v,$(VOLUMES),-v $v) $(NAME) $@
-
 clean:
-	docker image rm $(NAME)
+	docker-comose down -v
